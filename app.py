@@ -1,5 +1,5 @@
 from re import DEBUG, sub
-from flask import Flask, render_template, request, redirect, send_file, url_for
+from flask import Flask, render_template, request, send_file ,redirect, url_for
 from werkzeug.utils import secure_filename, send_from_directory
 import os
 import subprocess
@@ -10,6 +10,7 @@ app = Flask(__name__)
 uploads_dir = os.path.join(app.instance_path, 'uploads')
 
 os.makedirs(uploads_dir, exist_ok=True)
+
 
 @app.route("/")
 def hello_world():
@@ -23,8 +24,8 @@ def detect():
     video = request.files['video']
     video.save(os.path.join(uploads_dir, secure_filename(video.filename)))
     print(video)
-    subprocess.run("ls")
-    subprocess.run(['python3', 'detect.py', '--source', os.path.join(uploads_dir, secure_filename(video.filename))])
+   # subprocess.run("dir")
+    subprocess.run(['python', 'detect.py', '--source', os.path.join(uploads_dir, secure_filename(video.filename))])
 
     # return os.path.join(uploads_dir, secure_filename(video.filename))
     obj = secure_filename(video.filename)
@@ -33,7 +34,7 @@ def detect():
 @app.route("/opencam", methods=['GET'])
 def opencam():
     print("here")
-    subprocess.run(['python3', 'detect.py', '--source', '0'])
+    subprocess.run(['python', 'detect.py', '--source', '0'])
     return "done"
     
 
